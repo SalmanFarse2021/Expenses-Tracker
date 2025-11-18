@@ -1,0 +1,10 @@
+# Environment files contain project secrets and must not be committed
+.env
+.env.*
+*.env
+
+# Explicitly ignore client and server environment configs
+client/.env
+client/.env.*
+server/.env
+server/.env.*
