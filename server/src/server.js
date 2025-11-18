@@ -5,6 +5,7 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 import { connectDB } from './config/db.js'
 import { configurePassport } from './config/passport.js'
 import authRoutes from './routes/auth.routes.js'
@@ -41,7 +42,9 @@ app.use(
       sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24 * 7
     },
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
+    store: MongoStore.create({
+      client: mongoose.connection.getClient()
+    })
   })
 )
 

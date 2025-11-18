@@ -8,3 +8,14 @@ client/.env
 client/.env.*
 server/.env
 server/.env.*
+
+# Dependencies and build output
+node_modules/
+client/node_modules/
+server/node_modules/
+dist/
+client/dist/
+
+# Misc
+.DS_Store
+*.log
