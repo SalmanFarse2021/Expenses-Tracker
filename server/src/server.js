@@ -10,6 +10,8 @@ import { connectDB } from './config/db.js'
 import { configurePassport } from './config/passport.js'
 import authRoutes from './routes/auth.routes.js'
 import txRoutes from './routes/transactions.routes.js'
+import summaryRoutes from './routes/summary.routes.js'
+import groupRoutes from './routes/groups.routes.js'
 
 
 dotenv.config()
@@ -56,6 +58,8 @@ app.use(passport.session())
 app.get('/api/health', (_req, res) => res.json({ ok: true }))
 app.use('/api/auth', authRoutes)
 app.use('/api/transactions', txRoutes)
+app.use('/api/summary', summaryRoutes)
+app.use('/api/groups', groupRoutes)
 
 
 const port = process.env.PORT || 5000
