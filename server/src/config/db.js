@@ -2,6 +2,22 @@ import mongoose from 'mongoose'
 
 let memoryServer
 
+const DEFAULT_TIMEOUT_MS = 5000
+
+const buildConnectionOptions = () => {
+  const timeoutFromEnv = Number.parseInt(
+    process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS,
+    10
+  )
+
+  return {
+    serverSelectionTimeoutMS:
+      Number.isFinite(timeoutFromEnv) && timeoutFromEnv > 0
+        ? timeoutFromEnv
+        : DEFAULT_TIMEOUT_MS
+  }
+}
+
 const startMemoryServer = async () => {
   if (memoryServer) {
     return
@@ -15,7 +31,7 @@ const startMemoryServer = async () => {
   })
 
   const uri = memoryServer.getUri()
-  await mongoose.connect(uri)
+  await mongoose.connect(uri, buildConnectionOptions())
   console.log('✅ MongoDB (in-memory) connected')
 }
 
@@ -25,7 +41,7 @@ export const connectDB = async () => {
 
   if (!useMemoryOnly && mongoUri) {
     try {
-      await mongoose.connect(mongoUri)
+      await mongoose.connect(mongoUri, buildConnectionOptions())
       console.log('✅ MongoDB connected')
       return
     } catch (err) {
